@@ -4,10 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.ManyToOne;
+import br.com.zup.transacao.transacao.Transacao;
 
 @Entity
-@Table(name = "cartoes")
 public class Cartao {
 
     @Id
@@ -17,6 +17,9 @@ public class Cartao {
     private String numero;
 
     private String email;
+
+    @ManyToOne
+    private Transacao transacao;
 
     @Deprecated
     public Cartao() {

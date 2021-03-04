@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class TransacaoResponse {
+
     private String estabelecimento;
     private LocalDateTime efetivadaEm;
     private BigDecimal valor;

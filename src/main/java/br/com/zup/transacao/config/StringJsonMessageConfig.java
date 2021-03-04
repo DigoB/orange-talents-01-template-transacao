@@ -12,4 +12,3 @@ public class StringJsonMessageConfig {
         return new StringJsonMessageConverter();
     }
 }
-

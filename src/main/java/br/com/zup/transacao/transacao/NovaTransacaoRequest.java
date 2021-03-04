@@ -13,7 +13,7 @@ import br.com.zup.transacao.estabelecimento.EstabelecimentoRequest;
 
 public class NovaTransacaoRequest {
 
-    private Long id;
+    private String id;
 
     private BigDecimal valor;
 
@@ -50,7 +50,7 @@ public class NovaTransacaoRequest {
         return new Transacao(id,valor,estabelecimento,cartao,this.efetuadaEm);
     }
 
-    public Long getId() {
+    public String getId() {
         return this.id;
     }
 

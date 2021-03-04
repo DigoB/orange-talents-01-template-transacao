@@ -8,12 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import br.com.zup.transacao.cartao.Cartao;
 import br.com.zup.transacao.estabelecimento.Estabelecimento;
 
 @Entity
-@Table(name = "transacoes")
 public class Transacao {
 
     @Id
@@ -22,11 +20,11 @@ public class Transacao {
 
     private BigDecimal valor;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Estabelecimento estabelecimento;
+     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+     private Estabelecimento estabelecimento;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Cartao cartao;
+     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+     private Cartao cartao;
 
     private LocalDateTime efetivadaEm;
 
@@ -34,7 +32,7 @@ public class Transacao {
     public Transacao() {
     }
 
-    public Transacao(Long id, BigDecimal valor, Estabelecimento estabelecimento, Cartao cartao,
+    public Transacao(String id2, BigDecimal valor, Estabelecimento estabelecimento, Cartao cartao,
 			LocalDateTime efetuadaEm) {
 	}
 

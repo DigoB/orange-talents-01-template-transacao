@@ -21,7 +21,7 @@ public class TransacaoController {
     private TransacaoRepository transacaoRepository;
 
     @GetMapping("/cartoes/{id}/transacoes")
-    public ResponseEntity<?> busca(@PathVariable Long id) {
+    public ResponseEntity<?> buscaTransacoes(@PathVariable Long id) {
 
         Optional<Cartao> possivelCartao = cartaoRepository.findById(id);
 
@@ -29,9 +29,9 @@ public class TransacaoController {
             return ResponseEntity.notFound().build();
         }
 
-        List<Transacao> transacoes = transacaoRepository.findTop10ByCartaoOrderByEfetuadaEmDesc(possivelCartao.get());
+        Optional<Transacao> transacoes = transacaoRepository.findById(id);
 
-        return ResponseEntity.ok(TransacaoResponse.toListResponse(transacoes));
+       return ResponseEntity.ok().build();
     }
 
 }
