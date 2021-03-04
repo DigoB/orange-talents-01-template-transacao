@@ -2,8 +2,12 @@ package br.com.zup.transacao.transacao;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import br.com.zup.transacao.cartao.Cartao;
 import br.com.zup.transacao.cartao.CartaoRepository;
 import br.com.zup.transacao.cartao.CartaoRequest;
@@ -21,18 +25,22 @@ public class NovaTransacaoRequest {
 
     private EstabelecimentoRequest estabelecimento;
 
-    private LocalDateTime efetuadaEm;
+    private LocalDateTime efetivadaEm;
 
-	public Transacao toModel(CartaoRepository cartaoRepository, EstabelecimentoRepository estabelecimentoRepository) {
+	public Transacao paraTransacao(CartaoRepository cartaoRepository, EstabelecimentoRepository estabelecimentoRepository) {
 
-        final Logger logger = org.slf4j.LoggerFactory.getLogger(NovaTransacaoRequest.class);
+        final Logger logger = LoggerFactory.getLogger(NovaTransacaoRequest.class);
 
         logger.info("Buscando possivel cartao no banco de dados");
 
         Optional<Cartao> possivelCartao = cartaoRepository.findByNumero(cartao.getId());
 
-        Cartao cartao = possivelCartao.isPresent() ? possivelCartao.get() :
-        new Cartao(this.cartao.getId(), this.cartao.getEmail());
+        Cartao cartao = null;
+        if(possivelCartao.isPresent()) {
+            cartao = possivelCartao.get();
+        } else {
+            cartao = new Cartao(this.cartao.getId(), this.cartao.getEmail());
+        }
 
         logger.info("Cartao encontrado");
 
@@ -41,13 +49,18 @@ public class NovaTransacaoRequest {
         Optional<Estabelecimento> possivelEstabelecimento = estabelecimentoRepository
         .findByNome(estabelecimento.getNome());
 
-        Estabelecimento estabelecimento = possivelEstabelecimento.isPresent()
-                ? possivelEstabelecimento.get() : new Estabelecimento(this.estabelecimento.getNome(),
-                 this.estabelecimento.getCidade(), this.estabelecimento.getEndereco());
+        Estabelecimento estabelecimento = null;
+        if(possivelEstabelecimento.isPresent()) {
+            estabelecimento = possivelEstabelecimento.get();
+
+        } else {
+           estabelecimento = new Estabelecimento(this.estabelecimento.getNome(), this.estabelecimento.getCidade(), 
+            this.estabelecimento.getEndereco());
+        }
     
         logger.info("Efetuando Transacao");
 
-        return new Transacao(id,valor,estabelecimento,cartao,this.efetuadaEm);
+        return new Transacao(id,valor,estabelecimento,cartao,this.efetivadaEm);
     }
 
     public String getId() {
@@ -66,7 +79,11 @@ public class NovaTransacaoRequest {
         return this.cartao;
     }
 
-    public LocalDateTime getEfetuadaEm() {
-        return this.efetuadaEm;
+    public LocalDateTime getEfetivadaEm() {
+        return this.efetivadaEm;
     }
+
+	public static List<TransacaoDto> converter(List<Transacao> transacoes) {
+		return transacoes.stream().map(TransacaoDto::new).collect(Collectors.toList());
+	}
 }

@@ -21,7 +21,7 @@ public class TransacaoConsumer {
 
         System.out.println(novaTransacao);
 
-        Transacao transacao = novaTransacao.toModel(cartaoRepository, estabelecimentoRepository);
+        Transacao transacao = novaTransacao.paraTransacao(cartaoRepository, estabelecimentoRepository);
 
         transacaoRepository.save(transacao);
         }

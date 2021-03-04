@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import br.com.zup.transacao.cartao.Cartao;
@@ -15,8 +13,7 @@ import br.com.zup.transacao.estabelecimento.Estabelecimento;
 public class Transacao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     private BigDecimal valor;
 
@@ -32,8 +29,13 @@ public class Transacao {
     public Transacao() {
     }
 
-    public Transacao(String id2, BigDecimal valor, Estabelecimento estabelecimento, Cartao cartao,
-			LocalDateTime efetuadaEm) {
+    public Transacao(String id, BigDecimal valor, Estabelecimento estabelecimento, Cartao cartao,
+			LocalDateTime efetivadaEm) {
+                this.id = id;
+                this.valor = valor;
+                this.estabelecimento = estabelecimento;
+                this.cartao = cartao;
+                this.efetivadaEm = efetivadaEm;
 	}
 
 	public LocalDateTime getEfetivadaEm() {
@@ -47,4 +49,13 @@ public class Transacao {
     public BigDecimal getValor() {
         return valor;
     }
+
+	public Cartao getCartao() {
+		return cartao;
+	}
+
+    public String getId() {
+        return this.id;
+    }
+
 }
